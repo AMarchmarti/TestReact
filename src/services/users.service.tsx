@@ -1,7 +1,7 @@
 import { get } from './http.service';
 import { User } from './models/User.model';
 
-const getAllUsers = async (): Promise<User[]> => {
+export const getAllUsers = async (): Promise<User[]> => {
 	let users: User[];
 	try {
 		const response: any = await get('https://jsonplaceholder.typicode.com/users');
@@ -13,7 +13,7 @@ const getAllUsers = async (): Promise<User[]> => {
 	return users;
 };
 
-const getUserById = async (userId: number | string): Promise<User> => {
+export const getUserById = async (userId: number | string): Promise<User> => {
 	let user: User;
 	try {
 		const response: any = await get(`https://jsonplaceholder.typicode.com/users/${userId}`);
@@ -24,5 +24,3 @@ const getUserById = async (userId: number | string): Promise<User> => {
 	}
 	return user;
 };
-
-export default { getAllUsers, getUserById };
