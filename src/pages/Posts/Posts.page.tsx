@@ -60,7 +60,7 @@ const PostsPage = () => {
 
 			setLoading(false);
 		})();
-	}, [rowsPerPage]);
+	}, [rows]);
 
 	const handleChangeRows = (event: string) => {
 		setRows(parseInt(event, 10));
@@ -79,7 +79,7 @@ const PostsPage = () => {
 					<InputNumber
 						id="number-rows"
 						setter={handleChangeRows}
-						editValue={rowsPerPage}
+						editValue={rows}
 						variant="standard"
 						ariaLabel="rows per page"
 					/>
