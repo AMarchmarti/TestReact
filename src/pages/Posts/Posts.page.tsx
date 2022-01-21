@@ -22,7 +22,7 @@ const INITIALVALUE = 5;
 const PostsPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
 	const [postsData, setPostData] = React.useState<PostData[] | undefined>();
-	const [rowsPerPage, setRowsPerPage] = React.useState<number>(INITIALVALUE);
+	const [rows, setRows] = React.useState<number>(INITIALVALUE);
 
 	const headerTable = ['Title', 'Post', 'Comments', 'Author'];
 
@@ -30,7 +30,7 @@ const PostsPage = () => {
 		const data: PostData[] = [];
 
 		try {
-			for (let index = 0; index < rowsPerPage; index++) {
+			for (let index = 0; index < rows; index++) {
 				const commentsByPost: Comment[] = await getCommentsByPostId(postsData[index].id);
 				const authorOfPost: User = await getUserById(postsData[index].userId);
 				data.push({
@@ -62,8 +62,8 @@ const PostsPage = () => {
 		})();
 	}, [rowsPerPage]);
 
-	const handleChangeRowsPerPage = (event: string) => {
-		setRowsPerPage(parseInt(event, 10));
+	const handleChangeRows = (event: string) => {
+		setRows(parseInt(event, 10));
 	};
 
 	if (loading || postsData === undefined) return <CircularProgress />;
@@ -78,7 +78,7 @@ const PostsPage = () => {
 				componentToSelectRows={
 					<InputNumber
 						id="number-rows"
-						setter={handleChangeRowsPerPage}
+						setter={handleChangeRows}
 						editValue={rowsPerPage}
 						variant="standard"
 						ariaLabel="rows per page"
