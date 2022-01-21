@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Context } from '../../contexts/globalContext';
-import { Post } from '../../services/models/Post.model';
-import { Comment } from '../../services/models/Comment.model';
-import { getAllPosts } from '../../services/posts.service';
-import { getCommentsByPostId } from '../../services/comments.service';
+import { Album } from '../../services/models/Album.model';
+import { Photo } from '../../services/models/Photo.model';
+import { getAllAlbums } from '../../services/albums.service';
+import { getPhotosByAlbumId } from '../../services/photos.service';
 import { User } from '../../services/models/User.model';
 import { getUserById } from '../../services/users.service';
 import { CircularProgress } from '@material-ui/core';
@@ -11,33 +11,31 @@ import Table from '../../components/Organisms/Table/Table';
 import InputNumber from '../../components/Atoms/InputNumber/InputNumber';
 import useFetchData from '../../hooks/useFetchData';
 
-interface PostData {
-	body: string;
+interface AlbumData {
 	title: string;
-	comments: number;
+	photos: number;
 	author: string;
 }
 
 const INITIALVALUE = 5;
 
-const PostsPage = () => {
+const AlbumsPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
 	const [rows, setRows] = React.useState<number>(INITIALVALUE);
 
-	const headerTable = ['Title', 'Post', 'Comments', 'Author'];
+	const headerTable = ['Title', 'Photos', 'Author'];
 
-	const normalizePostsData = async (postsData: Post[]) => {
-		const data: PostData[] = [];
+	const normalizeAlbumsData = async (albumData: Album[]) => {
+		const data: AlbumData[] = [];
 
 		try {
 			for (let index = 0; index < rows; index++) {
-				const commentsByPost: Comment[] = await getCommentsByPostId(postsData[index].id);
-				const authorOfPost: User = await getUserById(postsData[index].userId);
+				const photosByAlbum: Photo[] = await getPhotosByAlbumId(albumData[index].id);
+				const authosOfAlbum: User = await getUserById(albumData[index].userId);
 				data.push({
-					title: postsData[index].title,
-					body: postsData[index].body,
-					comments: commentsByPost.length,
-					author: authorOfPost.name,
+					title: albumData[index].title,
+					photos: photosByAlbum.length,
+					author: authosOfAlbum.name,
 				});
 			}
 		} catch (e) {
@@ -47,9 +45,9 @@ const PostsPage = () => {
 		return data;
 	};
 
-	const postsData = useFetchData({
-		getterAll: getAllPosts,
-		normalizeData: normalizePostsData,
+	const albumData = useFetchData({
+		getterAll: getAllAlbums,
+		normalizeData: normalizeAlbumsData,
 		setLoading,
 		params: rows,
 	});
@@ -58,7 +56,7 @@ const PostsPage = () => {
 		setRows(parseInt(event, 10));
 	};
 
-	if (loading || postsData === undefined) return <CircularProgress />;
+	if (loading || albumData === undefined) return <CircularProgress />;
 
 	return (
 		<>
@@ -66,7 +64,7 @@ const PostsPage = () => {
 				align="justify"
 				alignRow="justify"
 				headerRows={headerTable}
-				rows={postsData}
+				rows={albumData}
 				componentToSelectRows={
 					<InputNumber
 						id="number-rows"
@@ -81,4 +79,4 @@ const PostsPage = () => {
 	);
 };
 
-export default PostsPage;
+export default AlbumsPage;

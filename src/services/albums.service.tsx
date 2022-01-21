@@ -1,7 +1,7 @@
 import { get } from './http.service';
 import { Album } from './models/Album.model';
 
-const getAllAlbums = async (): Promise<Album[]> => {
+export const getAllAlbums = async (): Promise<Album[]> => {
 	let albums: Album[];
 	try {
 		const response: any = get('https://jsonplaceholder.typicode.com/albums');
@@ -14,7 +14,7 @@ const getAllAlbums = async (): Promise<Album[]> => {
 	return albums;
 };
 
-const getAlbumsByUserId = async (userId: number | string): Promise<Album[]> => {
+export const getAlbumsByUserId = async (userId: number | string): Promise<Album[]> => {
 	let albums: Album[];
 	try {
 		const response: any = get(`https://jsonplaceholder.typicode.com/albums?userId=${userId}`);
@@ -26,5 +26,3 @@ const getAlbumsByUserId = async (userId: number | string): Promise<Album[]> => {
 
 	return albums;
 };
-
-export default { getAllAlbums, getAlbumsByUserId };
