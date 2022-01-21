@@ -3,6 +3,7 @@ import TableCell from '../TableCell/TableCell';
 
 interface TableTitleProps {
 	titles: string[];
+	align?: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -14,11 +15,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const TableTitle = ({ titles }: TableTitleProps): any => {
+const TableTitle = ({ titles, align }: TableTitleProps): any => {
 	const classes = useStyles();
 	return titles.map((title: string, index: number) => {
 		const key = index;
-		return <TableCell key={key} classNameCell={classes.title} color="primary" variant="h2" value={title} />;
+		return (
+			<TableCell
+				key={key}
+				classNameCell={classes.title}
+				align={align}
+				color="primary"
+				variant="h2"
+				value={title}
+			/>
+		);
 	});
 };
 

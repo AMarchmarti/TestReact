@@ -3,16 +3,26 @@ import * as React from 'react';
 import keys from '../../../helpers/keys';
 
 interface InputTextProps {
-	disabled: boolean;
-	editValue: string | undefined;
+	disabled?: boolean;
+	editValue: string | number | undefined;
 	id: string | undefined;
-	label: string | undefined;
-	placeholder: string;
+	label?: string | undefined;
+	ariaLabel?: string | undefined;
+	placeholder?: string;
 	variant: 'standard' | 'filled' | 'outlined' | undefined;
-	setter: (value: string | number) => void;
+	setter: (value: any) => void;
 }
 
-const InputText = ({ editValue, disabled, setter, id, label, placeholder, variant }: InputTextProps): JSX.Element => {
+const InputNumber = ({
+	ariaLabel,
+	editValue,
+	disabled,
+	setter,
+	id,
+	label,
+	placeholder,
+	variant,
+}: InputTextProps): JSX.Element => {
 	const [state, setState] = React.useState<string | number | undefined>(editValue);
 	const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
 		const { value } = target;
@@ -31,6 +41,7 @@ const InputText = ({ editValue, disabled, setter, id, label, placeholder, varian
 			label={label}
 			value={state}
 			placeholder={placeholder || ''}
+			aria-label={ariaLabel}
 			variant={variant}
 			onChange={handleChange}
 			onBlur={handleBlur}
@@ -45,4 +56,4 @@ const InputText = ({ editValue, disabled, setter, id, label, placeholder, varian
 	);
 };
 
-export default InputText;
+export default InputNumber;

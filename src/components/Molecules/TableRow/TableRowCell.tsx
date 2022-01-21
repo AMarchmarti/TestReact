@@ -10,7 +10,6 @@ interface TableRowCellsProps {
 const useStyles = makeStyles({
 	titleRow: {
 		color: constants.palette.darkGrey,
-		whiteSpace: 'nowrap',
 	},
 });
 
