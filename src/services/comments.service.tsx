@@ -1,7 +1,7 @@
 import { get } from './http.service';
 import { Comment } from './models/Comment.model';
 
-const getAllComments = async (): Promise<Comment[]> => {
+export const getAllComments = async (): Promise<Comment[]> => {
 	let comments: Comment[];
 	try {
 		const response: any = get('https://jsonplaceholder.typicode.com/comments');
@@ -14,7 +14,7 @@ const getAllComments = async (): Promise<Comment[]> => {
 	return comments;
 };
 
-const getCommentsByPostId = async (postId: number | string): Promise<Comment[]> => {
+export const getCommentsByPostId = async (postId: number | string): Promise<Comment[]> => {
 	let comments: Comment[];
 	try {
 		const response: any = get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`);
@@ -26,5 +26,3 @@ const getCommentsByPostId = async (postId: number | string): Promise<Comment[]> 
 
 	return comments;
 };
-
-export default { getAllComments, getCommentsByPostId };

@@ -25,70 +25,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface TableProps {
+	align?: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
+	alignRow?: 'inherit' | 'left' | 'center' | 'right' | 'justify' | undefined;
+
+	componentToSelectRows?: JSX.Element;
+
 	headerRows: string[];
+
 	rows: any[];
-	labelRowsPerPage?:
-		| ((value: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void) => JSX.Element)
-		| undefined;
-	rowsPerPageOptions: number[];
-	colSpan?: number;
-	initialRowsPerPage: number;
 }
 
-const Table = ({
-	headerRows,
-	rows,
-	labelRowsPerPage,
-	rowsPerPageOptions,
-	colSpan,
-	initialRowsPerPage,
-}: TableProps): JSX.Element => {
+const Table = ({ align, alignRow, componentToSelectRows, headerRows, rows }: TableProps): JSX.Element => {
 	const classes = useStyles();
-	const [page, setPage] = React.useState(0);
-	const [rowsPerPage, setRowsPerPage] = React.useState(initialRowsPerPage);
 
-	const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-		setPage(newPage);
-	};
-
-	const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		setRowsPerPage(parseInt(event.target.value, 10));
-		setPage(0);
-	};
-
-	const defaultLabel = () => !!labelRowsPerPage && labelRowsPerPage(handleChangeRowsPerPage);
 	return (
 		<TableContainer component={Paper}>
 			<MuiTable className={classes.table} aria-label="custom pagination table">
 				<TableHead className={classes.head}>
 					<TableRow>
-						<TableTitle titles={headerRows} />
+						<TableTitle titles={headerRows} align={align} />
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows).map(
-						(row: any, indexRow: number) => (
-							<TableRow key={indexRow}>
-								<TableRowCells row={row} />
-							</TableRow>
-						)
-					)}
+					{rows.map((row: any, indexRow: number) => (
+						<TableRow key={indexRow}>
+							<TableRowCells align={alignRow} row={row} />
+						</TableRow>
+					))}
 				</TableBody>
-				<TableFooter>
-					<TableRow>
-						<TablePagination
-							rowsPerPageOptions={rowsPerPageOptions}
-							colSpan={colSpan}
-							count={rows.length}
-							rowsPerPage={rowsPerPage}
-							page={page}
-							labelRowsPerPage={defaultLabel}
-							onPageChange={handleChangePage}
-							onRowsPerPageChange={() => !labelRowsPerPage && handleChangeRowsPerPage}
-							ActionsComponent={TablePaginationActions}
-						/>
-					</TableRow>
-				</TableFooter>
+				<TableFooter>{componentToSelectRows}</TableFooter>
 			</MuiTable>
 		</TableContainer>
 	);

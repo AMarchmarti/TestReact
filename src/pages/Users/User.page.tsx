@@ -16,6 +16,7 @@ interface UserDataTable {
 const UserPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
 	const [usersDataTable, setUsersDataTable] = React.useState<UserDataTable[]>();
+
 	const headerTable = ['Name', 'Email', 'Number Posts'];
 
 	const normalizeUserData = async (usersData: User[]): Promise<UserDataTable[]> => {
@@ -57,14 +58,7 @@ const UserPage = () => {
 
 	return (
 		<div>
-			<Table
-				headerRows={headerTable}
-				rows={usersDataTable}
-				labelRowsPerPage={undefined}
-				rowsPerPageOptions={[]}
-				colSpan={3}
-				initialRowsPerPage={5}
-			/>
+			<Table headerRows={headerTable} rows={usersDataTable} />
 		</div>
 	);
 };
