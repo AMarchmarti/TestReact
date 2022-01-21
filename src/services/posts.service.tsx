@@ -1,7 +1,7 @@
 import { get } from './http.service';
 import { Post } from './models/Post.model';
 
-const getAllPosts = async (): Promise<Post[]> => {
+export const getAllPosts = async (): Promise<Post[]> => {
 	let posts: Post[];
 	try {
 		const response: any = get('https://jsonplaceholder.typicode.com/posts');
@@ -14,7 +14,7 @@ const getAllPosts = async (): Promise<Post[]> => {
 	return posts;
 };
 
-const getPostsByUserId = async (userId: number | string): Promise<Post[]> => {
+export const getPostsByUserId = async (userId: number | string): Promise<Post[]> => {
 	let posts: Post[];
 	try {
 		const response: any = get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
@@ -26,5 +26,3 @@ const getPostsByUserId = async (userId: number | string): Promise<Post[]> => {
 
 	return posts;
 };
-
-export default { getAllPosts, getPostsByUserId };
