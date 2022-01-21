@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
 import Table from '../../components/Organisms/Table/Table';
 import { Context } from '../../contexts/globalContext';
+import useFetchData from '../../hooks/useFetchData';
 import { Post } from '../../services/models/Post.model';
 import { User } from '../../services/models/User.model';
 import { getPostsByUserId } from '../../services/posts.service';
@@ -15,7 +16,6 @@ interface UserDataTable {
 
 const UserPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
-	const [usersDataTable, setUsersDataTable] = React.useState<UserDataTable[]>();
 
 	const headerTable = ['Name', 'Email', 'Number Posts'];
 
@@ -37,20 +37,11 @@ const UserPage = () => {
 		return userDataTable;
 	};
 
-	const fetchData = async () => {
-		const users: User[] = await getAllUsers();
-		setUsersDataTable(await normalizeUserData(users));
-	};
-
-	React.useEffect(() => {
-		(async (): Promise<void> => {
-			setLoading(true);
-			if (usersDataTable === undefined) {
-				await fetchData();
-			}
-			setLoading(false);
-		})();
-	}, []);
+	const usersDataTable = useFetchData({
+		getterAll: getAllUsers,
+		normalizeData: normalizeUserData,
+		setLoading,
+	});
 
 	if (loading || !usersDataTable) {
 		return <CircularProgress />;
