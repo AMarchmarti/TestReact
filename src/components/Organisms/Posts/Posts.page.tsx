@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Context } from '../../contexts/globalContext';
-import { Post } from '../../services/models/Post.model';
-import { Comment } from '../../services/models/Comment.model';
-import { getAllPosts } from '../../services/posts.service';
-import { getCommentsByPostId } from '../../services/comments.service';
-import { User } from '../../services/models/User.model';
-import { getUserById } from '../../services/users.service';
+import { Context } from '../../../contexts/globalContext';
+import { Post } from '../../../services/models/Post.model';
+import { Comment } from '../../../services/models/Comment.model';
+import { getAllPosts } from '../../../services/posts.service';
+import { getCommentsByPostId } from '../../../services/comments.service';
+import { User } from '../../../services/models/User.model';
+import { getUserById } from '../../../services/users.service';
 import { CircularProgress } from '@material-ui/core';
-import Table from '../../components/Organisms/Table/Table';
-import InputNumber from '../../components/Atoms/InputNumber/InputNumber';
-import useFetchData from '../../hooks/useFetchData';
+import Table from '../../Molecules/Table/Table';
+import InputNumber from '../../Atoms/InputNumber/InputNumber';
+import useFetchData from '../../../hooks/useFetchData';
 
 interface PostData {
 	body: string;
@@ -58,25 +58,20 @@ const PostsPage = () => {
 		setRows(parseInt(event, 10));
 	};
 
-	if (loading || postsData === undefined) return <CircularProgress />;
-
 	return (
 		<>
-			<Table
-				align="justify"
-				alignRow="justify"
-				headerRows={headerTable}
-				rows={postsData}
-				componentToSelectRows={
-					<InputNumber
-						id="number-rows"
-						setter={handleChangeRows}
-						editValue={rows}
-						variant="standard"
-						ariaLabel="rows per page"
-					/>
-				}
+			<InputNumber
+				id="number-rows"
+				label="Show rows"
+				setter={handleChangeRows}
+				editValue={rows}
+				variant="outlined"
 			/>
+			{loading || postsData === undefined ? (
+				<CircularProgress />
+			) : (
+				<Table align="center" alignRow="left" headerRows={headerTable} rows={postsData} />
+			)}
 		</>
 	);
 };

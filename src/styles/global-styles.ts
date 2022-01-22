@@ -28,11 +28,6 @@ const theme = createTheme({
 		},
 	},
 	overrides: {
-		MuiFormControl: {
-			root: {
-				width: '100%',
-			},
-		},
 		MuiPaper: {
 			root: {
 				border: constants.border.main,

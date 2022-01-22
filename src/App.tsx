@@ -1,9 +1,8 @@
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { Provider } from './contexts/globalContext';
-import UserPage from './pages/Users/User.page';
-import PostsPage from './pages/Posts/Posts.page';
+
 import theme from './styles/global-styles';
-import AlbumsPage from './pages/Albums/Albums.page';
+import HomePage from './pages/Home/Home.page';
 
 function App() {
 	return (
@@ -11,9 +10,8 @@ function App() {
 			<Provider>
 				<ThemeProvider {...{ theme }}>
 					<CssBaseline />
-					<UserPage />
-					<PostsPage />
-					<AlbumsPage />
+
+					<HomePage />
 				</ThemeProvider>
 			</Provider>
 		</>
