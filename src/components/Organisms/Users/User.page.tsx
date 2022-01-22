@@ -1,12 +1,12 @@
 import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
-import Table from '../../components/Organisms/Table/Table';
-import { Context } from '../../contexts/globalContext';
-import useFetchData from '../../hooks/useFetchData';
-import { Post } from '../../services/models/Post.model';
-import { User } from '../../services/models/User.model';
-import { getPostsByUserId } from '../../services/posts.service';
-import { getAllUsers } from '../../services/users.service';
+import Table from '../../Molecules/Table/Table';
+import { Context } from '../../../contexts/globalContext';
+import useFetchData from '../../../hooks/useFetchData';
+import { Post } from '../../../services/models/Post.model';
+import { User } from '../../../services/models/User.model';
+import { getPostsByUserId } from '../../../services/posts.service';
+import { getAllUsers } from '../../../services/users.service';
 
 interface UserDataTable {
 	email: string;

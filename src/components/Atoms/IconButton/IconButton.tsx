@@ -1,7 +1,7 @@
 import * as React from 'react';
-import MuiIconButton from '@material-ui/core/IconButton';
+import MuiIconButton, { IconButtonProps as MuiIconButtonProps } from '@material-ui/core/IconButton';
 
-interface IconButtonProps {
+interface IconButtonProps extends MuiIconButtonProps {
 	ariaLabel?: string;
 	className?: string | undefined;
 	color?: 'inherit' | 'primary' | 'secondary' | 'default' | undefined;
@@ -11,7 +11,16 @@ interface IconButtonProps {
 	id?: string;
 }
 
-const IconButton = ({ id, handleClick, icon, disabled, className, color, ariaLabel }: IconButtonProps) => {
+const IconButton = ({
+	id,
+	handleClick,
+	icon,
+	disabled,
+	className,
+	color,
+	ariaLabel,
+	...props
+}: IconButtonProps): JSX.Element => {
 	return (
 		<MuiIconButton
 			aria-label={ariaLabel}
@@ -20,6 +29,7 @@ const IconButton = ({ id, handleClick, icon, disabled, className, color, ariaLab
 			disabled={disabled}
 			id={id}
 			onClick={handleClick}
+			{...props}
 		>
 			{icon}
 		</MuiIconButton>

@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { Context } from '../../contexts/globalContext';
-import { Album } from '../../services/models/Album.model';
-import { Photo } from '../../services/models/Photo.model';
-import { getAllAlbums } from '../../services/albums.service';
-import { getPhotosByAlbumId } from '../../services/photos.service';
-import { User } from '../../services/models/User.model';
-import { getUserById } from '../../services/users.service';
+import { Context } from '../../../contexts/globalContext';
+import { Album } from '../../../services/models/Album.model';
+import { Photo } from '../../../services/models/Photo.model';
+import { getAllAlbums } from '../../../services/albums.service';
+import { getPhotosByAlbumId } from '../../../services/photos.service';
+import { User } from '../../../services/models/User.model';
+import { getUserById } from '../../../services/users.service';
 import { CircularProgress } from '@material-ui/core';
-import Table from '../../components/Organisms/Table/Table';
-import InputNumber from '../../components/Atoms/InputNumber/InputNumber';
-import useFetchData from '../../hooks/useFetchData';
+import Table from '../../Molecules/Table/Table';
+import InputNumber from '../../Atoms/InputNumber/InputNumber';
+import useFetchData from '../../../hooks/useFetchData';
 
 interface AlbumData {
 	title: string;
@@ -56,25 +56,20 @@ const AlbumsPage = () => {
 		setRows(parseInt(event, 10));
 	};
 
-	if (loading || albumData === undefined) return <CircularProgress />;
-
 	return (
 		<>
-			<Table
-				align="justify"
-				alignRow="justify"
-				headerRows={headerTable}
-				rows={albumData}
-				componentToSelectRows={
-					<InputNumber
-						id="number-rows"
-						setter={handleChangeRows}
-						editValue={rows}
-						variant="standard"
-						ariaLabel="rows per page"
-					/>
-				}
+			<InputNumber
+				id="number-rows"
+				label="Show rows"
+				setter={handleChangeRows}
+				editValue={rows}
+				variant="outlined"
 			/>
+			{loading || albumData === undefined ? (
+				<CircularProgress />
+			) : (
+				<Table align="center" alignRow="left" headerRows={headerTable} rows={albumData} />
+			)}
 		</>
 	);
 };
