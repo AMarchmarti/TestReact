@@ -1,12 +1,12 @@
-import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
-import Table from '../../Molecules/Table/Table';
+import Table from '../../Organisms/Table/Table';
 import { Context } from '../../../contexts/globalContext';
 import useFetchData from '../../../hooks/useFetchData';
 import { Post } from '../../../services/models/Post.model';
 import { User } from '../../../services/models/User.model';
 import { getPostsByUserId } from '../../../services/posts.service';
 import { getAllUsers } from '../../../services/users.service';
+import Loading from '../../Molecules/Loading/Loading';
 
 interface UserDataTable {
 	email: string;
@@ -44,7 +44,7 @@ const UserPage = () => {
 	});
 
 	if (loading || !usersDataTable) {
-		return <CircularProgress />;
+		return <Loading />;
 	}
 
 	return (

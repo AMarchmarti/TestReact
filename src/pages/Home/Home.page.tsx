@@ -1,12 +1,12 @@
 import React from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import TabPanel from '../../components/Molecules/TabPanel/TabPanel';
+import TabPanel from '../../components/Organisms/TabPanel/TabPanel';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
 import DescriptionIcon from '@material-ui/icons/Description';
-import UserPage from '../../components/Organisms/Users/User.page';
-import PostsPage from '../../components/Organisms/Posts/Posts.page';
-import AlbumsPage from '../../components/Organisms/Albums/Albums.page';
+import UserPage from '../../components/Templates/Users/User.page';
+import PostsPage from '../../components/Templates/Posts/Posts.page';
+import AlbumsPage from '../../components/Templates/Albums/Albums.page';
 
 export interface TabProps {
 	label: string;

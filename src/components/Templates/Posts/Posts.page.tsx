@@ -6,10 +6,11 @@ import { getAllPosts } from '../../../services/posts.service';
 import { getCommentsByPostId } from '../../../services/comments.service';
 import { User } from '../../../services/models/User.model';
 import { getUserById } from '../../../services/users.service';
-import { CircularProgress } from '@material-ui/core';
-import Table from '../../Molecules/Table/Table';
+import { Box } from '@material-ui/core';
+import Table from '../../Organisms/Table/Table';
 import InputNumber from '../../Atoms/InputNumber/InputNumber';
 import useFetchData from '../../../hooks/useFetchData';
+import Loading from '../../Molecules/Loading/Loading';
 
 interface PostData {
 	body: string;
@@ -60,15 +61,17 @@ const PostsPage = () => {
 
 	return (
 		<>
-			<InputNumber
-				id="number-rows"
-				label="Show rows"
-				setter={handleChangeRows}
-				editValue={rows}
-				variant="outlined"
-			/>
+			<Box p={1} pr={0} textAlign="end">
+				<InputNumber
+					id="number-rows"
+					label="Show rows"
+					setter={handleChangeRows}
+					editValue={rows}
+					variant="outlined"
+				/>
+			</Box>
 			{loading || postsData === undefined ? (
-				<CircularProgress />
+				<Loading />
 			) : (
 				<Table align="center" alignRow="left" headerRows={headerTable} rows={postsData} />
 			)}

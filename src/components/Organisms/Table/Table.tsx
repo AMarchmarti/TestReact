@@ -77,12 +77,6 @@ const TableTitle = ({ titles, align }: TableTitleProps): any => {
 	});
 };
 
-{
-	/* <Typography className={classNameText} color={color} variant={variant}>
-	{value}
-</Typography>; */
-}
-
 const Table = ({ align, alignRow, componentToSelectRows, headerRows, rows }: TableProps): JSX.Element => {
 	const classes = useStyles();
 
