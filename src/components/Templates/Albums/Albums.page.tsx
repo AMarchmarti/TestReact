@@ -85,7 +85,7 @@ const AlbumsPage = () => {
 			{loading || albumsData === undefined ? (
 				<Loading />
 			) : (
-				<Table align="center" alignRow="left" headerRows={headerTable} rows={albumsData} />
+				<Table align="center" alignRow="center" headerRows={headerTable} rows={albumsData} />
 			)}
 		</>
 	);
