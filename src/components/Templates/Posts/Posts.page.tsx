@@ -6,10 +6,11 @@ import { getAllPosts } from '../../../services/posts.service';
 import { getCommentsByPostId } from '../../../services/comments.service';
 import { User } from '../../../services/models/User.model';
 import { getUserById } from '../../../services/users.service';
-import { CircularProgress } from '@material-ui/core';
-import Table from '../../Molecules/Table/Table';
+import { Box } from '@material-ui/core';
+import Table from '../../Organisms/Table/Table';
 import InputNumber from '../../Atoms/InputNumber/InputNumber';
-import useFetchData from '../../../hooks/useFetchData';
+import Loading from '../../Molecules/Loading/Loading';
+import useCache from '../../../hooks/useCache';
 
 interface PostData {
 	body: string;
@@ -23,19 +24,21 @@ const INITIALVALUE = 5;
 const PostsPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
 	const [rows, setRows] = React.useState<number>(INITIALVALUE);
+	const [cache, setCache] = useCache('posts');
+	const [postsData, setPostsData] = React.useState<PostData[]>([]);
 
 	const headerTable = ['Title', 'Post', 'Comments', 'Author'];
 
-	const normalizePostsData = async (postsData: Post[]) => {
-		const data: PostData[] = [];
+	const normalizePostsData = async (posts: Post[]) => {
+		const data: PostData[] = postsData;
 
 		try {
-			for (let index = 0; index < rows; index++) {
-				const commentsByPost: Comment[] = await getCommentsByPostId(postsData[index].id);
-				const authorOfPost: User = await getUserById(postsData[index].userId);
+			for (const post of posts) {
+				const commentsByPost: Comment[] = await getCommentsByPostId(post.id);
+				const authorOfPost: User = await getUserById(post.userId);
 				data.push({
-					title: postsData[index].title,
-					body: postsData[index].body,
+					title: post.title,
+					body: post.body,
 					comments: commentsByPost.length,
 					author: authorOfPost.name,
 				});
@@ -47,12 +50,24 @@ const PostsPage = () => {
 		return data;
 	};
 
-	const postsData = useFetchData({
-		getterAll: getAllPosts,
-		normalizeData: normalizePostsData,
-		setLoading,
-		params: rows,
-	});
+	const fetch = async () => {
+		const posts: Post[] = (await getAllPosts()).reverse();
+		setCache(await normalizePostsData(posts.slice(postsData.length, rows)));
+		setPostsData(await normalizePostsData(posts.slice(postsData.length, rows)));
+	};
+
+	React.useEffect(() => {
+		(async (): Promise<void> => {
+			setLoading(true);
+			if (!!cache && cache.length >= rows) {
+				setPostsData(cache.slice(0, rows));
+			} else {
+				await fetch();
+			}
+
+			setLoading(false);
+		})();
+	}, [rows]);
 
 	const handleChangeRows = (event: string) => {
 		setRows(parseInt(event, 10));
@@ -60,15 +75,17 @@ const PostsPage = () => {
 
 	return (
 		<>
-			<InputNumber
-				id="number-rows"
-				label="Show rows"
-				setter={handleChangeRows}
-				editValue={rows}
-				variant="outlined"
-			/>
+			<Box p={1} pr={0} textAlign="end">
+				<InputNumber
+					id="number-rows"
+					label="Show rows"
+					setter={handleChangeRows}
+					editValue={rows}
+					variant="standard"
+				/>
+			</Box>
 			{loading || postsData === undefined ? (
-				<CircularProgress />
+				<Loading />
 			) : (
 				<Table align="center" alignRow="left" headerRows={headerTable} rows={postsData} />
 			)}

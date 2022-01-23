@@ -1,12 +1,14 @@
-import { CircularProgress } from '@material-ui/core';
 import * as React from 'react';
-import Table from '../../Molecules/Table/Table';
+import Table from '../../Organisms/Table/Table';
 import { Context } from '../../../contexts/globalContext';
 import useFetchData from '../../../hooks/useFetchData';
 import { Post } from '../../../services/models/Post.model';
 import { User } from '../../../services/models/User.model';
 import { getPostsByUserId } from '../../../services/posts.service';
 import { getAllUsers } from '../../../services/users.service';
+import Loading from '../../Molecules/Loading/Loading';
+import CacheFactory from '../../../services/core/cache/cache.factory';
+import useCache from '../../../hooks/useCache';
 
 interface UserDataTable {
 	email: string;
@@ -16,6 +18,8 @@ interface UserDataTable {
 
 const UserPage = () => {
 	const { loading, setLoading } = React.useContext(Context);
+	const [cache, setCache] = useCache('users');
+	const [usersData, setUsersData] = React.useState<UserDataTable[]>();
 
 	const headerTable = ['Name', 'Email', 'Number Posts'];
 
@@ -37,19 +41,31 @@ const UserPage = () => {
 		return userDataTable;
 	};
 
-	const usersDataTable = useFetchData({
-		getterAll: getAllUsers,
-		normalizeData: normalizeUserData,
-		setLoading,
-	});
+	const fetch = async () => {
+		const users: User[] = await getAllUsers();
+		setCache(await normalizeUserData(users));
+		setUsersData(await normalizeUserData(users));
+	};
 
-	if (loading || !usersDataTable) {
-		return <CircularProgress />;
+	React.useEffect(() => {
+		(async (): Promise<void> => {
+			setLoading(true);
+			if (cache) {
+				setUsersData(cache);
+			} else {
+				await fetch();
+			}
+			setLoading(false);
+		})();
+	}, []);
+
+	if (loading || !usersData) {
+		return <Loading />;
 	}
 
 	return (
 		<div>
-			<Table headerRows={headerTable} rows={usersDataTable} />
+			<Table headerRows={headerTable} rows={usersData} />
 		</div>
 	);
 };
