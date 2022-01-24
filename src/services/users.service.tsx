@@ -7,7 +7,6 @@ export const getAllUsers = async (): Promise<User[]> => {
 		const response: any = await get('https://jsonplaceholder.typicode.com/users');
 		users = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 	return users;
@@ -19,7 +18,6 @@ export const getUserById = async (userId: number | string): Promise<User> => {
 		const response: any = await get(`https://jsonplaceholder.typicode.com/users/${userId}`);
 		user = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 	return user;

@@ -7,7 +7,6 @@ export const getAllComments = async (): Promise<Comment[]> => {
 		const response: any = get('https://jsonplaceholder.typicode.com/comments');
 		comments = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 
@@ -20,7 +19,6 @@ export const getCommentsByPostId = async (postId: number | string): Promise<Comm
 		const response: any = get(`https://jsonplaceholder.typicode.com/comments?postId=${postId}`);
 		comments = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 

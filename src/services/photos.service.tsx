@@ -7,7 +7,6 @@ export const getAllPhotos = async (): Promise<Photo[]> => {
 		const response: any = get('https://jsonplaceholder.typicode.com/photos');
 		photos = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 
@@ -20,7 +19,6 @@ export const getPhotosByAlbumId = async (albumId: number | string): Promise<Phot
 		const response: any = get(`https://jsonplaceholder.typicode.com/photos?albumId=${albumId}`);
 		photos = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 

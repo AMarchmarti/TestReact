@@ -7,7 +7,6 @@ export const getAllPosts = async (): Promise<Post[]> => {
 		const response: any = get('https://jsonplaceholder.typicode.com/posts');
 		posts = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 
@@ -20,7 +19,6 @@ export const getPostsByUserId = async (userId: number | string): Promise<Post[]>
 		const response: any = get(`https://jsonplaceholder.typicode.com/posts?userId=${userId}`);
 		posts = response;
 	} catch (e) {
-		console.log('e :>> ', e);
 		throw e;
 	}
 
