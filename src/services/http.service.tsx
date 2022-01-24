@@ -12,7 +12,6 @@ const createResponse = async (response: Response): Promise<any> => {
 	const responseStatus = response.status;
 	if (!HTTP_SUCCESS_STATUS.includes(responseStatus)) {
 		const responseData = (await response.json()) || { error: null };
-		// const errorResponse = await parseError(responseData);
 		throw new HttpException(responseData);
 	}
 
